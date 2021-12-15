@@ -1,0 +1,30 @@
+{
+    "name": "Aglaonema costatum",
+    "requirements": [
+      {
+        "resource_name": "Humidity",
+        "is_range": "true",
+        "unit": "%",
+        "optimal": [40,50]
+      },
+      {
+        "resource_name": "Water",
+        "is_range": "false",
+        "unit": "hr",
+        "optimal": 192
+      },
+      {
+        "resource_name": "Temperature",
+        "is_range": "true",
+        "unit": "F",
+        "optimal": [65, 75],
+        "drop": [0,10]
+      },
+      {
+        "resource_name": "UV",
+        "is_range": "true",
+        "unit": "UV Index",
+        "optimal": [1, 3],
+      }
+    ]
+}

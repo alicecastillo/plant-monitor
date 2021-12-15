@@ -3,13 +3,13 @@
 
 # Created by: Alice Castillo
 
-# Description: 
+# Description:
 
-import PlantResource
 
-class Humidity(PlantResource):
+
+class Humidity(environmental_factors.PlantResource):
     def __init__(self, name: str, subject: int):
-        super.__init__(name, subject)
+        super().__init__(name, subject)
 
     def getReading(self, reading):
         pass

@@ -7,7 +7,7 @@ class PlantResource():
     def __init__(self, name: str, subject: int):
         self.name = name
         self.subject = subject
-        self.readings = []
+        #self.readings = []
 
     def getReading(self, reading):
         pass

@@ -2,11 +2,12 @@
 
 # Description:
 
-import PlantResource
+from . import PlantResource
+
 
 class Temperature(PlantResource):
     def __init__(self, name: str, subject: int):
-        super.__init__(name, subject)
+        super().__init__(name, subject)
 
     def getReading(self, reading):
         pass

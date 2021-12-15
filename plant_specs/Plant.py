@@ -6,6 +6,7 @@ import json
 class Plant():
     def __init__(self, num: int, reqs: list = []):
         self.getData(num)
+        self.num = num
         self.name = ""
         self.reqs = []
 

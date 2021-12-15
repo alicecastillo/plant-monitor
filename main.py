@@ -2,13 +2,13 @@
 
 # Description: Main driver class
 
-from environmental_factors import Humidity, Temperature, UVIndex
 from plant_specs import Plant
+import environmental_factors
 
 
 def init_plant() -> Plant:
 
-    p = Plant()
+    p = Plant(1)
 
 
 

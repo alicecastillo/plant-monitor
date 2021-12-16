@@ -1,6 +1,6 @@
 # Created by: Alice Castillo
 
-# Description:
+# Description: Specific to the Inland DHT11 sensor.
 
 # sys lib
 import time
@@ -8,6 +8,8 @@ import time
 # venv lib
 import board
 import adafruit_dht
+import pandas as pd
+from openpyxl import Workbook, load_workbook
 
 # Local base class import
 from plant_specs.Sensor import Sensor
@@ -34,3 +36,21 @@ class DHT11(Sensor):
             except Exception as e:
                 self.releaseSensor()
                 raise e
+
+    def writeLogFile(self, species_filename: str, subj_num: int):
+        humidity_reqs = self.getSpeciesFile(species_filename)["Humidity"]
+        temp_reqs = self.getSpeciesFile(species_filename)["Temperature"]
+
+        filename = self.getFileDate(subj_num)
+
+        humidity_dict = {"Humidity": [0, 1, 2, 3, 4]}
+        humidity_df = pd.DataFrame(data=humidity_dict)
+
+        # add stying
+        wb = load_workbook(f'{filename}.xlsx')
+        hum = wb['Humidity']
+        #hum.append([])
+        temp = wb['Humidity']
+        #temp.append([])
+        wb.save(f'{filename}.xlsx')
+

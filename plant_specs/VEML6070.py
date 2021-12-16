@@ -1,6 +1,6 @@
 # Created by: Alice Castillo
 
-# Description:
+# Description: Specific to the Adafruit VEML6070 sensor.
 
 # sys lib
 import time
@@ -10,6 +10,7 @@ import requests
 import board
 import busio
 import adafruit_veml6070
+from openpyxl import Workbook
 
 # Local base class import
 from plant_specs.Sensor import Sensor
@@ -45,6 +46,10 @@ class VEML6070(Sensor):
                 print("At {0}, UV Index {1}".format(sec, uv_index))
             except RuntimeError as er:
                 print(er.args[0])
+
+    def writeLogFile(self, species_filename: str, subj_num: int):
+        uv_reqs = self.getSpeciesFile(species_filename)["UV"]
+        filename = self.getFileDate(subj_num)
 
 
     def hitAPI(self) -> int:

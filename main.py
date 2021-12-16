@@ -19,9 +19,11 @@ def getTime(offset: int) -> int:
     tz = timezone(timedelta(hours=offset))
     return int(datetime.now(tz).timestamp())
 
-def init_plant(num: int) -> Plant:
+
+def init_plant(num: int, cur_time: int) -> None:
     p = Plant(num)
-    return p
+    p.getReadings(cur_time)
+    p.writeLogs()
 
 
 def main(args): # optional args for configuring email, notification settings
@@ -30,10 +32,7 @@ def main(args): # optional args for configuring email, notification settings
     # Add in check for configs
 
     cur_time = getTime(-6) # Central Time (UTC-06:00)
-    print(cur_time)
-    p = init_plant(1) # Subject 1
-    p.getReadings(cur_time)
-    p.writeLogs()
+    init_plant(1, cur_time) # Subject 1
 
 
 if __name__ == "__main__":

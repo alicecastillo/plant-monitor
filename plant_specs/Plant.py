@@ -33,4 +33,9 @@ class Plant():
         return json.load(f)
 
     def getReadings(self, cur_time: int):
+
+        pass
+
+
+    def writeLogs(self):
         pass

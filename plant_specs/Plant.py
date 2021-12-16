@@ -2,19 +2,23 @@
 
 # Description: Generic base class for any plant.
 import json
+import os
 
 class Plant():
     def __init__(self, num: int, reqs: list = []):
-        self.getData(num)
+        self.loadData(num)
         self.num = num
-        self.name = ""
+        self.species = ""
         self.reqs = []
 
     def loadData(self, num: int):
-        f = open("current_subjects/subject_{0}.json".format(num), "r")
-        f_json = json.load(f)
-        self.name = f_json["name"]
-        self.reqs = f_json["requirements"]
+        # get subject file
+        sub_json = self.readJSONFile("plant_specs/current_subjects/subject_{0}.json".format(num))
+        self.species = sub_json["species"]
+
+        # get species file
+        species_json = self.readJSONFile("plant_specs/species/{0}.json".format(sub_json["species_filename"]))
+        self.reqs = species_json["requirements"]
 
     def checkResources(self):
         # -    Water moisture and temperature 2x / hr, 24 x 1 day
@@ -22,4 +26,11 @@ class Plant():
         pass
 
     def writeUpdate(self):
+        pass
+
+    def readJSONFile(self, path):
+        f = open(os.path.join(os.getcwd(), path), "r")
+        return json.load(f)
+
+    def getReadings(self, cur_time: int):
         pass

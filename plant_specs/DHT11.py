@@ -25,6 +25,7 @@ class DHT11(Sensor):
             try:
                 temp_f = self.convertToF(self.sensor.temperature)
                 humidity = self.sensor.humidity
+                print("At {0}, H {1} and T {2}".format(sec, temp_f, humidity))
 
             except RuntimeError as er:
                 print(er.args[0])

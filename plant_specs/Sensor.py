@@ -22,8 +22,8 @@ class Sensor():
         return self.sleep_interval
 
     def readyToRead(self, sec):
-        if not sec%self.sleep_interval:
-            print("Ready to run at {0}".format(sec))
+#         if not sec%self.sleep_interval:
+#             print("Ready to run at {0}".format(sec))
         return not sec%self.sleep_interval
 
     def releaseSensor(self):

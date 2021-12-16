@@ -29,7 +29,7 @@ class BadAPICall(Exception):
 class VEML6070(Sensor):
     def __init__(self,  cur_time: int):
         super().__init__(cur_time, 5)
-        self.sensor = adafruit_veml6070.VEML6070(busio.I2c(board.SCL, board.SDA))
+        self.sensor = adafruit_veml6070.VEML6070(busio.I2C(board.SCL, board.SDA))
         self.zip = 63130
 
 
@@ -42,6 +42,7 @@ class VEML6070(Sensor):
             try:
                 uv_raw = self.sensor.uv_raw
                 uv_index = self.sensor.get_index(uv_raw)
+                print("At {0}, UV Index {1}".format(sec, uv_index))
             except RuntimeError as er:
                 print(er.args[0])
 

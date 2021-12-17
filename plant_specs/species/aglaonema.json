@@ -8,12 +8,6 @@
         "optimal": [40,50]
       },
       {
-        "resource_name": "Water",
-        "is_range": "false",
-        "unit": "hr",
-        "optimal": 192
-      },
-      {
         "resource_name": "Temperature",
         "is_range": "true",
         "unit": "F",
@@ -24,7 +18,13 @@
         "resource_name": "UV",
         "is_range": "true",
         "unit": "UV Index",
-        "optimal": [1, 3]
+        "optimal": [1, 2]
+      },
+      {
+        "resource_name": "Water",
+        "is_range": "false",
+        "unit": "hr",
+        "optimal": 192
       }
     ]
 }

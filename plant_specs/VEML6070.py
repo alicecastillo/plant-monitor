@@ -14,6 +14,7 @@ from openpyxl import Workbook
 
 # Local base class import
 from plant_specs.Sensor import Sensor
+from subject_logs.LogFile import LogFile, EvalColor
 
 class BadAPICall(Exception):
     def __init__(self, error_code: str, text: str):
@@ -47,9 +48,23 @@ class VEML6070(Sensor):
             except RuntimeError as er:
                 print(er.args[0])
 
-    def writeLogFile(self, species_filename: str, subj_num: int):
-        uv_reqs = self.getSpeciesFile(species_filename)["UV"]
-        filename = self.getFileDate(subj_num)
+    def writeLogFile(self, species_filename: str, log_file: LogFile):
+
+        uv_reqs = self.getSpeciesFile(species_filename)[2]["optimal"]
+
+        log_data = [
+            self.getAvg(self.logs),
+            self.getMedian(self.logs)
+        ]
+
+        try:
+            api = self.hitAPI()
+            log_data.append(api)
+        except BadAPICall as bac:
+            log_data.append[f"{bac}"]
+
+        log_colors = self.getLogColors(self, log_data, uv_reqs)
+        log_file.insertCol("UV Level", log_data, log_colors)
 
 
     def hitAPI(self) -> int:
@@ -61,7 +76,7 @@ class VEML6070(Sensor):
         while response.status_code != 200:
             if tries > 3:
                 return BadAPICall(response.status_code, response.text)
-            time.sleep(2)
+            time.sleep(1)
             response = requests.get(url)
             tries += 1
 

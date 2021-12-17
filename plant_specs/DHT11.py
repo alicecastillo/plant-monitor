@@ -26,8 +26,10 @@ class DHT11(Sensor):
     def runSensor(self, sec: int):
         if self.readyToRead(sec):
             try:
-                temp_f = self.convertToF(self.sensor.temperature)
                 humidity = self.sensor.humidity
+                self.logs[0].append(float(humidity))
+                temp_f = self.convertToF(self.sensor.temperature)
+                self.logs[1].append(float(temp_f))
                 print("At {0}, H {1} and T {2}".format(sec, temp_f, humidity))
 
             except RuntimeError as er:
@@ -39,13 +41,13 @@ class DHT11(Sensor):
                 raise e
 
 
-    def getLogLists(self, logs_index, range, col_name):
+    def getLogLists(self, logs_index, req_range, col_name):
         log_data = [
             self.getAvg(self.logs[logs_index]),
             self.getMedian(self.logs[logs_index])
         ]
 
-        log_colors = self.getLogColors(self, log_data, range)
+        log_colors = self.getLogColors(log_data, req_range)
         return log_data, log_colors
 
 
@@ -64,4 +66,4 @@ class DHT11(Sensor):
             self.getSpeciesFile(species_filename)[1]["optimal"],
             "Temperature"
         )
-        log_file.insertCol("Humidity", temp_log_data, temp_log_colors)
+        log_file.insertCol("Temperature", temp_log_data, temp_log_colors)

@@ -2,6 +2,7 @@
 
 # Description: Generic base class for any sensor.
 import json
+import os
 import numpy as np
 from datetime import datetime
 from openpyxl import Workbook
@@ -16,7 +17,7 @@ class Sensor():
         self.sleep_interval = sleep_interval
 
         # non init
-        self.logs, self.sensor, self.log_file = None, None, ""
+        self.logs, self.sensor, self.log_file = [], None, ""
 
     # Overwritten by children
     def runSensor(self, sec: int):
@@ -47,27 +48,34 @@ class Sensor():
     def getFileDate(self, subj) -> str:
         d = datetime.fromtimestamp(self.cur_time)
         return "SUBJECT{0}_{1}_logs".format(subj, d.strftime("%b_%d_%Y"))
+    
+    def readJSONFile(self, path):
+        f = open(os.path.join(os.getcwd(), path), "r")
+        return json.load(f)
 
-    def getMedian(self, log) -> str:
+    def getMedian(self, log) -> float:
         if not len(log):
             return "Error"
         a = np.array(log)
-        return str(np.median(a))
+        return np.median(a)
 
-    def getAvg(self, log) -> str:
+    def getAvg(self, log) -> float:
         if not len(log):
             return "Error"
         a = np.array(log)
-        return str(np.mean(a))
+        return np.mean(a)
 
-    def getLogColors(self, log_data, range) -> []:
+    def getLogColors(self, log_data, req_range) -> []:
         log_colors = []
+        print(type(req_range[0]))
         for count, ld in enumerate(log_data):
-            if str(ld).__contains__("Error"):
+            sld = str(ld)
+            if sld.__contains__("Error"):
+                print("yep")
                 log_colors.append(EvalColor.Error)
-            elif ld < range[0]:
+            elif ld < req_range[0]:
                 log_colors.append(EvalColor.Lower)
-            elif range[0] < ld < range[1]:
+            elif req_range[0] < ld < req_range[1]:
                 log_colors.append(EvalColor.Equal)
             else:
                 log_colors.append(EvalColor.Greater)

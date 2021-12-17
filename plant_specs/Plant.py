@@ -18,9 +18,9 @@ from plant_specs.subject_logs.LogFile import  LogFile
 
 class Plant():
     def __init__(self, num: int, reqs: list = []):
+        self.species_filepath, self.species_filename = "", ""
         self.loadData(num)
         self.num = num
-        self.species_filepath, self.species_filename = "", ""
         self.last_ht_check, self.last_uv_check, self.last_water = 0, 0, 0
 
     def loadData(self, num: int):

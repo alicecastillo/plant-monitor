@@ -43,13 +43,14 @@ class VEML6070(Sensor):
         if self.readyToRead(sec):
             try:
                 uv_raw = self.sensor.uv_raw
-                uv_index = self.sensor.get_index(uv_raw)
-                print("At {0}, UV Index {1}".format(sec, uv_index))
+                #uv_index = self.sensor.get_index(uv_raw)
+                self.logs.append(float(uv_raw))
+                print("At {0}, UV Index {1}".format(sec, uv_raw))
             except RuntimeError as er:
                 print(er.args[0])
 
     def writeLogFile(self, species_filename: str, log_file: LogFile):
-
+        print("VEML6070 writing logs")
         uv_reqs = self.getSpeciesFile(species_filename)[2]["optimal"]
 
         log_data = [
@@ -57,35 +58,43 @@ class VEML6070(Sensor):
             self.getMedian(self.logs)
         ]
 
-        try:
-            api = self.hitAPI()
-            log_data.append(api)
-        except BadAPICall as bac:
-            log_data.append[f"{bac}"]
-
-        log_colors = self.getLogColors(self, log_data, uv_reqs)
-        log_file.insertCol("UV Level", log_data, log_colors)
-
-
-    def hitAPI(self) -> int:
-        url = "https://enviro.epa.gov/enviro/efservice/getEnvirofactsUVDAILY/ZIP/{0}/json".format(self.zip)
-        response = requests.get(url)
-
-        # doesn't work
-        tries = 0
-        while response.status_code != 200:
-            if tries > 3:
-                return BadAPICall(response.status_code, response.text)
-            time.sleep(1)
-            response = requests.get(url)
-            tries += 1
-
-        if response.status_code == 200:
-            # good request
+        api_data = ""
+        for i in range(3):
+            print("try: {}".format(i))
             try:
-                r_json = response.json()
-                return int(r_json[0]['UV_INDEX'])
+                api = self.hitAPI()
+                api_data = api
+                break
+            except BadAPICall as bac:
+                api_data = f"{bac}"
             except Exception as e:
-                b = BadAPICall(response.status_code, response.text)
-                b.errorAccessingIndex()
-                raise b
+                api_data = "Error: {}".format(e.code)
+                break
+            time.sleep(1)
+        log_data.append(api_data)
+        print(log_data)
+
+        log_colors = self.getLogColors(log_data, uv_reqs)
+        log_file.insertCol("UV Level", log_data, log_colors)
+        
+        print("VEML6070 fin ---")
+
+
+    def hitAPI(self):
+        return "Error: bad"
+        try:
+            url = "https://enviro.epa.gov/enviro/efservice/getEnvirofactsUVDAILY/ZIP/{0}/json".format(self.zip)
+            response = requests.get(url)
+            if response.status_code == 200:
+                # good request
+                try:
+                    r_json = response.json()
+                    return int(r_json[0]['UV_INDEX'])
+                except Exception as e:
+                    b = BadAPICall(response.status_code, response.text)
+                    b.errorAccessingIndex()
+                    raise b
+            else:
+                raise BadAPICall(response.status_code, response.reason)
+        except Exception as e:
+            raise e

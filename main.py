@@ -22,7 +22,6 @@ def getTime(offset: int) -> int:
 def init_plant(num: int, cur_time: int) -> None:
     p = Plant(num)
     p.getReadings(cur_time)
-    p.writeLogs()
 
 
 def main(args): # optional args for configuring email, notification settings

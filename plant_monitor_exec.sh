@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # Create virtualenv if none exists
 if [ ! -d pm_venv ]
 then
@@ -6,7 +8,7 @@ fi
 
 . pm_venv/bin/activate
 pip install --upgrade pip
-sudo apt-get install libatlas-base-dev
+#sudo apt-get install libatlas-base-dev
 pip3 install -r requirements.txt
 
 #python --version

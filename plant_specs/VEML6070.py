@@ -14,7 +14,7 @@ from openpyxl import Workbook
 
 # Local base class import
 from plant_specs.Sensor import Sensor
-from subject_logs.LogFile import LogFile, EvalColor
+from plant_specs.subject_logs.LogFile import LogFile, EvalColor
 
 class BadAPICall(Exception):
     def __init__(self, error_code: str, text: str):

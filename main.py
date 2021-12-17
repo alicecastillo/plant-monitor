@@ -12,7 +12,6 @@ import argparse
 
 # Class imports
 from plant_specs.Plant import Plant
-import environmental_factors
 
 
 def getTime(offset: int) -> int:

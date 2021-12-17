@@ -12,7 +12,7 @@ from openpyxl import Workbook, load_workbook
 
 # Local base class import
 from plant_specs.Sensor import Sensor
-from subject_logs.LogFile import LogFile, EvalColor
+from plant_specs.subject_logs.LogFile import LogFile, EvalColor
 
 class DHT11(Sensor):
     def __init__(self, cur_time: int):

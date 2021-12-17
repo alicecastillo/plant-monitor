@@ -12,7 +12,7 @@ from openpyxl.styles import Font, Fill, PatternFill
 # Import sensor classes
 from plant_specs.VEML6070 import VEML6070
 from plant_specs.DHT11 import DHT11
-from subject_logs.LogFile import  LogFile
+from plant_specs.subject_logs.LogFile import  LogFile
 
 
 

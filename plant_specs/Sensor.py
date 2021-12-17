@@ -7,7 +7,7 @@ from datetime import datetime
 from openpyxl import Workbook
 
 # Local class imports
-from subject_logs.LogFile import LogFile, EvalColor
+from plant_specs.subject_logs.LogFile import LogFile, EvalColor
 
 
 class Sensor():
